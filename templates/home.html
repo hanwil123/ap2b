@@ -1,0 +1,164 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.0.slim.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+{% block body %}
+    <div class="d-flex container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>FLASK CRUD KURSUS</h1>
+                <div class="">
+                  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Tambah Data</button>
+                  <a href="/api/users" class = "btn btn-warning btn-lg">Home</a>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>NO</th>
+                        <th>NAMA</th>
+                        <th>ALAMAT</th>
+                        <th>TELP</th>
+                        <th>JENIS KELAMIN</th>
+                        <th>JENIS KURSUS</th>
+                        <th>TANGGAL PENDAFTARAN</th>
+                        <th>ACTION</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in computers %}
+                            <tr>
+                                <td>{{ row.0 }}</td>
+                                <td>{{ row.1 }}</td>
+                                <td>{{ row.2 }}</td>
+                                <td>{{ row.3 }}</td>
+                                <td>{{ row.4 }}</td>
+                                <td>{{ row.5 }}</td>
+                                <td>{{ row.6 }}</td>
+                                <td>
+                                  <a href="#!" class = "btn btn-warning btn-xs" data-toggle="modal" data-target="#modalEdit{{row.0}}">Edit</a>
+                                  <a href="/hapus/{{row.0}}" class = "btn btn-primary btn-xs" onclick="return confirm('hapus????')?">Hapus</a>
+
+                                </td>
+                            </tr>
+                            <div id="modalEdit{{row.0}}" class="modal fade" role="dialog">
+                              <div class="modal-dialog">
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">Form Kursus</h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <form action="{{url_for('update')}}" method = "POST">
+                                      <div class="form-group">
+                                        <label>Nama :</label>
+                                        <input type="hidden" name="id" value="{{row.0}}">
+                                        <input type="text" class="form-control" name="nama" value="{{row.1}}">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Alamat :</label>
+                                        <input type="text" class="form-control" name="alamat" value="{{row.2}}">
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Telp :</label>
+                                        <input type="text" class="form-control" name="telp"  value="{{row.3}}">
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="sel1">Jenis Kursus :</label>
+                                            <select class="form-control" id="sel1" name="jeniskursus" value="{{row.4}}">
+                                              <option>Kursus Bahasa Java</option>
+                                              <option>Kursus Pemrograman Web</option>
+                                              <option>Kursus Python</option>
+                                            </select>
+                                      </div>
+                                      <div class="form-group">
+                                        <label for="sel2">Jenis Kelamin :</label>
+                                            <select class="form-control" id="sel2" name="jeniskelamin" value="{{row.5}}">
+                                              <option>Laki-Laki</option>
+                                              <option>Perempuan</option>
+                                            </select>
+                                      </div>
+                                      <div class="form-group">
+                                        <label>Tanggal Pendaftaran :</label>
+                                        <input type="date" class="form-control" name="tglpendaftaran"  value="{{row.6}}">
+                                      </div>
+                                      <div class="form-group">
+                                        <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                                      </div>
+                                    </form>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Form Kursus</h4>
+              </div>
+              <div class="modal-body">
+                <form action="{{url_for('simpan')}}" method = "POST">
+                  <div class="form-group">
+                    <label>Nama :</label>
+                    <input type="text" class="form-control" name="nama">
+                  </div>
+                  <div class="form-group">
+                    <label>Alamat :</label>
+                    <input type="text" class="form-control" name="alamat">
+                  </div>
+                  <div class="form-group">
+                    <label>Telp :</label>
+                    <input type="text" class="form-control" name="telp">
+                  </div>
+                  <div class="form-group">
+                    <label for="sel1">Jenis Kursus :</label>
+                        <select class="form-control" id="sel1" name="jeniskursus">
+                          <option>Kursus Bahasa Java</option>
+                          <option>Kursus Pemrograman Web</option>
+                          <option>Kursus Python</option>
+                        </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="sel2">Jenis Kelamin :</label>
+                        <select class="form-control" id="sel2" name="jeniskelamin">
+                          <option>Laki-Laki</option>
+                          <option>Perempuan</option>
+                        </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Tanggal Pendaftaran :</label>
+                    <input type="date" class="form-control" name="tglpendaftaran">
+                  </div>
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-lg">Simpan</button>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
+</html>
